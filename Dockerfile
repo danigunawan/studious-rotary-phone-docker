@@ -1,12 +1,16 @@
 FROM ruby:2.6.6-alpine
 # Default ENV variables
 ENV MAIL_SMTP_PORT 587
+ENV PORT 3000
+ENV RAILS_ENV development
 ENV MAIL_SMTP_AUTH_TYPE plain
 ENV BUNDLE_SILENCE_ROOT_WARNING=1
+ENV APP_SRC https://github.com/pmop/studious-rotary-phone/archive/dev.zip
 
 RUN apk add --no-cache --update build-base \
 			linux-headers \
-			git \
+			libarchive-tools \
+			wget \
 			postgresql-dev \
 # Su-exec for easy step down from root
 			'su-exec>=0.2' \
@@ -23,13 +27,14 @@ RUN chgrp appgroup -R /home/appuser
 RUN chown appuser -R /home/appuser
 WORKDIR  /home/appuser
 
-# Start Redis in daemon mode (non-root)
-RUN su-exec appuser:appgroup redis-server  --daemonize yes 
-RUN su-exec appuser:appgroup git clone \
-	https://github.com/pmop/studious-rotary-phone app && \ 
-	cd app && \
-	bundle install
+RUN su-exec appuser:appgroup wget ${APP_SRC} -O app.zip && \ 
+	su-exec appuser:appgroup bsdtar --strip-components=1 -C app \
+	 -xvf app.zip && \ 
+	su-exec appuser:appgroup rm app.zip 
 
-WORKDIR  /home/appuser/app
+WORKDIR /home/appuser/app
+RUN bundle install
 
-EXPOSE 3000
+EXPOSE ${PORT}
+ENTRYPOINT ["su-exec", "appuser:appgroup"]
+CMD ["rails s -p ${PORT} -b '0.0.0.0'"]
