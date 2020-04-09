@@ -2,6 +2,7 @@ FROM ruby:2.6.6-alpine
 # Default ENV variables
 ENV MAIL_SMTP_PORT 587
 ENV PORT 3000
+ENV POSTGRES_PORT 5432
 ENV RAILS_ENV development
 ENV MAIL_SMTP_AUTH_TYPE plain
 ENV BUNDLE_SILENCE_ROOT_WARNING=1
@@ -35,6 +36,7 @@ RUN su-exec appuser:appgroup wget ${APP_SRC} -O app.zip && \
 WORKDIR /home/appuser/app
 RUN bundle install
 
-EXPOSE ${PORT}
+EXPOSE $PORT
+EXPOSE $POSTGRES_PORT
 ENTRYPOINT ["su-exec", "appuser:appgroup"]
-CMD ["rails s -p ${PORT} -b '0.0.0.0'"]
+CMD ["sh", "-c", "rails s -p $PORT -b '0.0.0.0'"]
