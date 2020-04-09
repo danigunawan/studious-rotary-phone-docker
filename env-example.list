@@ -1,0 +1,25 @@
+# Example of a minimal env.list so the rails app can run
+# Delete all coments
+# Rename this file to env.list
+# Replace everything after = accordingly
+# REPLACE EVERYTHING AFTER = ACCORDINGLY
+
+RAILS_MASTER_KEY=
+
+# PostgreSQL Database URLs
+# When running on Windows, if you want to connect
+# to a local PostgreSQL database or anything on Docker host, you must
+# provide address to localhost as following:
+# https://github.com/docker/for-win/issues/1083
+# HOST_ADDR=docker.for.win.localhost
+# MacOS also seems to require something similar 
+
+# Development database url
+DATABASE_DEVELOPMENT_URL=postgresql://USERNAME:USERPASSWORD@HOST_ADDR:POSTGRESQL_PORT/DEVELOPMENT_DATABASE_NAME
+# Test database url
+DATABASE_TEST_URL=postgresql://USERNAME:USERPASSWORD@HOST_ADDR:POSTGRESQL_PORT/TEST_DATABASE_NAME
+# Production database url
+DATABASE_URL=postgresql://USERNAME:USERPASSWORD@HOST_ADDR:POSTGRESQL_PORT/PRODUCTION_DATABASE_NAME
+# Default is http://127.0.0.1:3000 so you're very likely to not need changing it
+CORS_HOST=http://127.0.0.1:3000
+MAIL_HOST=http://127.0.0.1:3000
