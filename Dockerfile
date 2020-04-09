@@ -6,7 +6,7 @@ ENV POSTGRES_PORT 5432
 ENV RAILS_ENV development
 ENV MAIL_SMTP_AUTH_TYPE plain
 ENV BUNDLE_SILENCE_ROOT_WARNING=1
-ENV APP_SRC https://github.com/pmop/studious-rotary-phone/archive/dev.zip
+ENV APP_SRC https://github.com/pmop/studious-rotary-phone/archive/docker.zip
 
 RUN apk add --no-cache --update build-base \
 			linux-headers \
